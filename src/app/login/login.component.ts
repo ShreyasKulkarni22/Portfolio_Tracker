@@ -50,7 +50,7 @@ export class LoginComponent {
         next: (res) => {
           alert(res.message);
           this.loginForm.reset();
-          this.router.navigate(['allstocks']);
+          this.router.navigate(['market']);
         },
         error: (err) => {
           alert(err?.error.message);

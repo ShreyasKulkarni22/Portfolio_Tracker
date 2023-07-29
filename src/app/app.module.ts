@@ -12,13 +12,16 @@ import { SignupComponent } from './signup/signup.component';
 
 import { FormBuilder, FormGroup,Validators,FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
+import { MarketComponent } from './market/market.component';
 
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
+import {NgFor, NgIf} from '@angular/common';
+import {MatTableModule} from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,7 @@ import { MatIconModule } from '@angular/material/icon';
     HeaderComponent,
     LoginComponent,
     SignupComponent,
-    DashboardComponent
+    MarketComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +44,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatGridListModule,
     MatCardModule,
     MatMenuModule,
-    MatIconModule
+    MatIconModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
