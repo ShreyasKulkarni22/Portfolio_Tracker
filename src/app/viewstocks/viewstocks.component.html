@@ -23,19 +23,25 @@
   </header>
 
 
-
-  <section class="data">
-    <a class="nav-link" routerLink="/createportfolio">Create Portfolio</a>
-
-
-
-    <div class="card text-center" style="width: 18rem;" *ngFor="let pf of portfolios">
-      <div class="card-body" >
-        <span ><a (click)="deletePortfolio(pf.portfolioId)">X</a></span>
-  
-        <h5 class="card-title"></h5>
-        <p class="card-text">{{pf.portfolioName}}</p>
-        <a class="btn btn-primary" [routerLink]="['/viewstocks',pf.portfolioId]">View</a>
+<section class="data ">
+    <div>
+        <button (click)="generate_PDF()">Generate Stock Portfolio PDF</button>
+      </div>
+    <!-- <div *ngFor="let stock of dbstocks">
+        <p>{{stock.stockName}}</p>
+        <p>{{stock.stockPrice}}</p>
+        <p>{{stock.CurrPrice}}</p>
+        <p>{{(stock.CurrPrice-stock.stockPrice)/100}}</p>
+    </div> -->
+    
+    <div class="container">
+      <div style="height: 250px; width: 250px;" class="charts">
+        <canvas id="pie1"></canvas>
+        <canvas id="pie2"></canvas>
       </div>
     </div>
-  </section>
+    
+    
+    <!-- <button (click)="generatePDF()">Generate PDF with Pie Chart</button> -->
+</section>
+<router-outlet></router-outlet>

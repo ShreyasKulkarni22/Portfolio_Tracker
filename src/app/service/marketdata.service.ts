@@ -1,12 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Stock } from '../Models/Stock';
 
+import { ChartData,HistoricalData } from '../Models/Historical';
+import {Chart,ChartModule} from 'angular-highcharts'
 @Injectable({
   providedIn: 'root'
 })
 export class MarketdataService {
   baseurl="https://financialmodelingprep.com/api/v3/"
-  key="f551ef806631c0f25b1e797f8c82aacd"
+  key="8c51d79921ca367256c7362720a0bf53"
   constructor(private http:HttpClient) { }
 
   getMajorIndices(){
@@ -19,5 +22,22 @@ export class MarketdataService {
 
   getMostLosers(){
     return this.http.get(this.baseurl+"stock_market/losers?apikey="+this.key)
+  }
+
+  getStockInfo(sym:string){
+    
+    return this.http.get<Stock[]>(this.baseurl + `quote/${sym}?apikey=` + this.key)
+
+    // setTimeout(() => {
+    //   // console.log('data ', this.data[0]["symbol"],this.data[0]["name"],this.data[0]["price"],this.data[0]["dayLow"])
+    //   // return this.data
+    // }, 2000);
+  }
+
+  getHistorical(sym:string){
+    // https://financialmodelingprep.com/api/v3/historical-price-full/AAPL?serietype=line&apikey=8c51d79921ca367256c7362720a0bf53
+
+    return this.http.get<ChartData>(this.baseurl + `historical-price-full/${sym}?` + this.key)
+
   }
 }

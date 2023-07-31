@@ -356,10 +356,15 @@ h6 {
 }
 
 
-
-/*user defined*/
+/*user*/
 
 .data{
     margin-top: 20vh;
-    margin-left: 20vw;
+    margin-left: 10vw;
+}
+
+.charts{
+    display: flex;
+    flex-direction: row;
+    gap:200px;
 }

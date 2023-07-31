@@ -23,6 +23,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {NgFor, NgIf} from '@angular/common';
 import {MatTableModule} from '@angular/material/table';
 import { UserportfoliosComponent } from './userportfolios/userportfolios.component';
+import { ViewstocksComponent } from './viewstocks/viewstocks.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { UserportfoliosComponent } from './userportfolios/userportfolios.compone
     LoginComponent,
     SignupComponent,
     MarketComponent,
-    UserportfoliosComponent
+    UserportfoliosComponent,
+    ViewstocksComponent
   ],
   imports: [
     BrowserModule,
