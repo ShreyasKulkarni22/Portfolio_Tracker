@@ -22,6 +22,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 
 import {NgFor, NgIf} from '@angular/common';
 import {MatTableModule} from '@angular/material/table';
+import { UserportfoliosComponent } from './userportfolios/userportfolios.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {MatTableModule} from '@angular/material/table';
     HeaderComponent,
     LoginComponent,
     SignupComponent,
-    MarketComponent
+    MarketComponent,
+    UserportfoliosComponent
   ],
   imports: [
     BrowserModule,
