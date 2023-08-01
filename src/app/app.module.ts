@@ -24,6 +24,7 @@ import {NgFor, NgIf} from '@angular/common';
 import {MatTableModule} from '@angular/material/table';
 import { UserportfoliosComponent } from './userportfolios/userportfolios.component';
 import { ViewstocksComponent } from './viewstocks/viewstocks.component';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,9 @@ import { ViewstocksComponent } from './viewstocks/viewstocks.component';
     MatCardModule,
     MatMenuModule,
     MatIconModule,
-    MatTableModule
+    MatTableModule,
+    MatChipsModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

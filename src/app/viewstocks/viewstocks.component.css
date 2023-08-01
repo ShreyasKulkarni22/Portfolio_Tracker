@@ -366,7 +366,7 @@ h6 {
 .charts{
     display: flex;
     flex-direction: row;
-    gap:200px;
+    gap:300px;
 }
 
 table{

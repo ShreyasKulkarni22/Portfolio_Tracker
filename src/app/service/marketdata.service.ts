@@ -9,7 +9,9 @@ import {Chart,ChartModule} from 'angular-highcharts'
 })
 export class MarketdataService {
   baseurl="https://financialmodelingprep.com/api/v3/"
-  key="b4a7464e639f04e32bee80d667a085d0"
+  key="8c51d79921ca367256c7362720a0bf53"
+
+  finurl="https://finnhub.io/api/v1/news?category=general&token=cihg8shr01qik1h482egcihg8shr01qik1h482f0"
   constructor(private http:HttpClient) { }
 
   getMajorIndices(){
@@ -22,6 +24,14 @@ export class MarketdataService {
 
   getMostLosers(){
     return this.http.get(this.baseurl+"stock_market/losers?apikey="+this.key)
+  }
+
+  getMostActives(){
+    return this.http.get(this.baseurl+"stock_market/actives?apikey="+this.key)
+  }
+
+  getForexRates(){
+    return this.http.get(this.baseurl+"fx?apikey="+this.key)
   }
 
   getStockInfo(sym:string){
@@ -39,5 +49,9 @@ export class MarketdataService {
 
     return this.http.get<ChartData>(this.baseurl + `historical-price-full/${sym}?` + this.key)
 
+  }
+
+  getGeneralNews(){
+    return this.http.get(this.finurl)
   }
 }

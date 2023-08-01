@@ -389,14 +389,26 @@ mat-card-title {
     font-size: medium;
 }
 
-table{
-    width: fit-content;
-    margin-left: 40px;
+
+.chips{
+    margin-left: 5vw;
 }
 
-.movers{
+
+
+.navbuttons{
     display: flex;
     flex-direction: row;
-    justify-content:left;
-    gap: 300px;
+    width: fit-content;
+    gap: 30px;
+    
+}
+.navbuttons>a{
+    padding-right: 30px;
+}
+
+table{
+    width: 50vw;
+    
+
 }

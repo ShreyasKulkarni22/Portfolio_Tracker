@@ -3,8 +3,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import { MarketdataService } from '../service/marketdata.service';
 import {MatTableModule} from '@angular/material/table';
-
-
+import { AuthService } from '../service/auth.service';
+import { MatChipListbox, MatChipsModule } from '@angular/material/chips';
 
 export interface PeriodicElement {
   symbol: string;
@@ -18,118 +18,98 @@ export interface PeriodicElement {
   selector: 'app-market',
   templateUrl: './market.component.html',
   styleUrls: ['./market.component.css'],
-  // standalone: true,
-  // imports: [MatTableModule],
+
 })
 
 
-
-
-
-
-
 export class MarketComponent implements OnInit{
-  indices:any=[ {
-    "sector" : "Basic Materials",
-    "changesPercentage" : "0.0849%"
-  }, {
-    "sector" : "Building",
-    "changesPercentage" : "2.4699%"
-  }, {
-    "sector" : "Communication Services",
-    "changesPercentage" : "-0.7655%"
-  }, {
-    "sector" : "Conglomerates",
-    "changesPercentage" : "0.0000%"
-  }
-]
 
-  gainers:any=[ {
-    "symbol" : "SGLY",
-    "name" : "Singularity Future Technology Ltd.",
-    "change" : 1.03,
-    "price" : 5.01,
-    "changesPercentage" : 25.8794
-  }, {
-    "symbol" : "MDVL",
-    "name" : "MedAvail Holdings, Inc",
-    "change" : 0.31,
-    "price" : 1.58,
-    "changesPercentage" : 24.409454
-  }, {
-    "symbol" : "BBIG",
-    "name" : "Vinco Ventures, Inc.",
-    "change" : 0.65,
-    "price" : 3.53,
-    "changesPercentage" : 22.569439
-  }, {
-    "symbol" : "AMPGW",
-    "name" : "AmpliTech Group, Inc.",
-    "change" : 0.2799,
-    "price" : 1.5999,
-    "changesPercentage" : 21.204542
-  }, {
-    "symbol" : "DAVE",
-    "name" : "Dave Inc.",
-    "change" : 0.99,
-    "price" : 6.19,
-    "changesPercentage" : 19.038467
-  }
-]
-  losers:any=[ {
-    "symbol" : "HILS",
-    "name" : "Hillstream BioPharma, Inc. Common Stock",
-    "change" : -0.73,
-    "price" : 2.75,
-    "changesPercentage" : -20.97701
-  }, {
-    "symbol" : "DYSL",
-    "name" : "Dynasil Corporation of America",
-    "change" : -0.49,
-    "price" : 2.01,
-    "changesPercentage" : -19.6
-  }, {
-    "symbol" : "SPCE",
-    "name" : "Virgin Galactic Holdings, Inc.",
-    "change" : -2.34,
-    "price" : 10.03,
-    "changesPercentage" : -18.916735
-  }, {
-    "symbol" : "KYMR",
-    "name" : "Kymera Therapeutics, Inc.",
-    "change" : -8.07,
-    "price" : 42.68,
-    "changesPercentage" : -15.901478
-  }, {
-    "symbol" : "PIK",
-    "name" : "Kidpik Corp.",
-    "change" : -1.14,
-    "price" : 6.16,
-    "changesPercentage" : -15.616443
-  }
-]
- 
- 
+//fetch from api
+ indices:any
+ gainers!:any
+ losers:any
+ actives:any
+  forex:any
+  news:any
+  //for chips
+  activeStocks: any;
+  gainerStocks: any;
+  loserStocks: any;
+  forexList:any
 
 
 
 
 
 
-  constructor(private marketdata:MarketdataService){}
+  constructor(private marketdata:MarketdataService,private auth:AuthService){}
   ngOnInit(): void {
-    // this.marketdata.getMajorIndices().subscribe(res=>{
-    //   this.indices=res
-    // })
+    this.marketdata.getMajorIndices().subscribe(res=>{
+      this.indices=res
+      this.indices=this.indices.slice(0,20)
+    })
 
-    // this.marketdata.getMostGainers().subscribe(res=>{
-    //   this.gainers=res
-    // })
+    this.marketdata.getMostActives().subscribe(res=>{
+      this.actives=res
+      this.actives=this.actives.slice(0,20)
+    })
 
-    // this.marketdata.getMostLosers().subscribe(res=>{
-    //   this.losers=res
-    // })
+    this.marketdata.getMostGainers().subscribe(res=>{
+      this.gainers=res
+      this.gainers=this.gainers.slice(0,20)
+    })
+
+    this.marketdata.getMostLosers().subscribe(res=>{
+      this.losers=res
+      this.losers=this.losers.slice(0,20)
+    })
+
+    this.marketdata.getForexRates().subscribe(res=>{
+      this.forex=res
+      
+    })
+
+    this.marketdata.getGeneralNews().subscribe(res=>{
+      this.news=res
+      
+    })
   }
   displayedColumns: string[] = ['name', 'price', 'changesPercentage'];
   dataSource = this.gainers;
+
+  logout(){
+    this.auth.logout()
+  }
+
+
+  filterStocks(filterType: string) {
+    switch (filterType) {
+      case 'active':
+        this.activeStocks = this.actives;
+        this.gainerStocks = [];
+        this.loserStocks = [];
+        this.forexList=[];
+        break;
+      case 'gainers':
+        this.activeStocks = [];
+        this.gainerStocks = this.gainers
+        this.loserStocks = [];
+        this.forexList=[];
+        break;
+      case 'losers':
+        this.activeStocks = [];
+        this.gainerStocks = [];
+        this.loserStocks = this.losers
+        this.forexList=[];
+        break;
+      case 'currencies':
+        this.activeStocks = [];
+        this.gainerStocks = [];
+        this.loserStocks = [];
+        this.forexList=this.forex
+        break;
+      default:
+        break;
+    }
+  }
 }

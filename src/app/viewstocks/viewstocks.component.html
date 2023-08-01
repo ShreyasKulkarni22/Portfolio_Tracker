@@ -16,19 +16,71 @@
   
   <section class="data ">
   
-    <div class="container">
+    <div class="container" *ngIf="dbstocks.length>0">
       <div style="height: 350px; width: 350px;" class="charts">
         <canvas id="pie1"></canvas>
         <canvas id="pie2"></canvas>
       </div>
     </div>
 
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">New Portfolio</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="stockForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label for="stockSymbol"><h3>Stock Symbol</h3></label>
+              <input type="text" class="form-control" id="stockSymbol" formControlName="stockSymbol" placeholder="Enter Stock Symbol">
+              <div *ngIf="stockForm.get('stockSymbol')?.invalid && stockForm.get('stockSymbol')?.touched" class="invalid-feedback">
+                Portfolio Name is required.
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="stockName"><h3>Stock Name</h3></label>
+              <input type="text" class="form-control" id="stockName" formControlName="stockName" placeholder="Enter Stock Name">
+              <div *ngIf="stockForm.get('stockName')?.invalid && stockForm.get('stockName')?.touched" class="invalid-feedback">
+                Portfolio Name is required.
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="stockPrice"><h3>Stock Price</h3></label>
+              <input type="text" class="form-control" id="stockPrice" formControlName="stockPrice" placeholder="Enter Stock Price">
+              <div *ngIf="stockForm.get('stockPrice')?.invalid && stockForm.get('stockPrice')?.touched" class="invalid-feedback">
+                Portfolio Name is required.
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="stockQuantity"><h3>Stock Quantity</h3></label>
+              <input type="text" class="form-control" id="stockQuantity" formControlName="stockQuantity" placeholder="Enter Stock Quantity">
+              <div *ngIf="stockForm.get('stockQuantity')?.invalid && stockForm.get('stockQuantity')?.touched" class="invalid-feedback">
+                Portfolio Name is required.
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" (click)="onSubmit()">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
   </section>
+  <br><br>
+  <h1 style="text-align: center;">Portfolio Analysis</h1>
+  <!-- Button trigger modal -->
+  <button type="button" class="btn " data-bs-toggle="modal" data-bs-target="#exampleModal" style="background-color:  rgb(252,206,115); border-radius: 5px; margin-left: 1200px;">
+   <mat-icon style="height: 22px; vertical-align: text-bottom;">add</mat-icon> Stock
+ </button>
 
   <br><br>
-
-  <h1 style="text-align: center;">Portfolio Summary</h1>
-  <br>
 
   <table class="table caption-top table-secondary">
     <thead>

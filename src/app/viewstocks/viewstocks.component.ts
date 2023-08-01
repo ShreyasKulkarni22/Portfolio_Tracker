@@ -13,6 +13,7 @@ import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { Alignment, Margins } from 'pdfmake/interfaces';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../service/auth.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 
 
@@ -51,7 +52,8 @@ export class ViewstocksComponent implements OnInit {
 
   //For logged user
   loggeduser!: string;
-  constructor(private market: MarketdataService, private stockdb: StockService, private elementRef: ElementRef, private route: ActivatedRoute,private auth:AuthService) {
+  stockForm!: FormGroup;
+  constructor(private market: MarketdataService, private stockdb: StockService, private elementRef: ElementRef, private route: ActivatedRoute,private auth:AuthService,private formBuilder: FormBuilder) {
     
   }
 
@@ -148,9 +150,39 @@ export class ViewstocksComponent implements OnInit {
       this.canvas2url=canvas2.toDataURL("image/jpeg")
     }, 3000)
 
+
+    this.stockForm = this.formBuilder.group({
+      stockSymbol: ['', Validators.required],
+      stockName: [''],
+      stockPrice:[''],
+      stockQuantity:['']
+    });
+
+
   }
 
+  onSubmit() {
+    if (this.stockForm.valid) {
+      const stock = {
+        portfolioId:this.id,
+        stockSymbol: this.stockForm.value.stockSymbol,
+        stockName: this.stockForm.value.stockName,
+        stockPrice: this.stockForm.value.stockPrice,
+        stockQuantity: this.stockForm.value.stockQuantity
 
+      };
+
+      console.log(stock); // You can use the portfolio object as needed, for example, sending it to a service or performing other operations.
+      this.addStock(stock)
+    }
+  }
+
+  addStock(stock:any){
+    this.stockdb.addStock(stock).subscribe(res=>{
+      console.log("Added");
+      this.ngOnInit()
+    })
+  }
 
   async getAllStocksfromdb(id:any) {
     this.stockdb.getAllStocks(id).subscribe(async res=>{

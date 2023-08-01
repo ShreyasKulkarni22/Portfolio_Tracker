@@ -14,4 +14,8 @@ export class StockService {
   getAllStocks(id:any): Observable<DataStock[]> {
     return this.http.get<DataStock[]>(this.apiUrl+"api/Stock/"+id);
   }
+
+  addStock(stock:any): Observable<DataStock>{
+    return this.http.post<DataStock>(this.apiUrl+"api/Stock",stock)
+  }
 }
