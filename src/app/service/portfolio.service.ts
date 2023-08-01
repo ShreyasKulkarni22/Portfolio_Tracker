@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { portfolio } from '../Models/portfolio';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'

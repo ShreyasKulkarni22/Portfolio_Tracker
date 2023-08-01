@@ -3,7 +3,7 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 
 import { MarketdataService } from '../service/marketdata.service';
 import html2canvas from 'html2canvas';
-
+import {MatIconModule} from '@angular/material/icon';
 import Chart from 'chart.js/auto';
 import { StockService } from '../service/stock.service';
 import { DataStock } from '../Models/DataStock';
@@ -12,7 +12,11 @@ import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { Alignment, Margins } from 'pdfmake/interfaces';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../service/auth.service';
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
+
+
+
 @Component({
   selector: 'app-viewstocks',
   templateUrl: './viewstocks.component.html',
@@ -21,34 +25,46 @@ import { ActivatedRoute } from '@angular/router';
 
 
 export class ViewstocksComponent implements OnInit {
-  // data!:Stock[]
   data: any
 
+  //For fetching stock data from db
+  id: any
   public dbstocks!: DataStock[]
-  // chartData: ChartData = {
-  //   historical: [],
-  //   symbol: ''
-  // };
-
+  
   chartData1: any
   chartData2: any
-  id: any
   lineChart!: Chart
+
+  //For doughnut charts
   chart1: any;
   chart2:any;
-  constructor(private market: MarketdataService, private stockdb: StockService, private elementRef: ElementRef, private route: ActivatedRoute) {
+  total1!:number
+  total2!:number
 
+  //For portfolio valuation
+  portfoliovalue!:number
+  currentvalue!:number
+
+  //For embedding chart images in pdf
+  canvas1url: any;
+  canvas2url: any;
+
+  //For logged user
+  loggeduser!: string;
+  constructor(private market: MarketdataService, private stockdb: StockService, private elementRef: ElementRef, private route: ActivatedRoute,private auth:AuthService) {
+    
   }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id')
-
+    this.loggeduser=this.auth.username
     this.getAllStocksfromdb(this.id)
 
     setTimeout(() => {
       console.log()
-      const total1 = this.dbstocks.map(stock => stock.stockPrice).reduce((a, b) => a + b, 0);
-
+      this.total1 = this.dbstocks.map(stock => stock.stockPrice).reduce((a, b) => a + b, 0);
+      this.portfoliovalue=this.dbstocks.map(stock => stock.stockQuantity*stock.stockPrice).reduce((a, b) => a + b, 0);
+      this.currentvalue=this.dbstocks.map(stock => stock.stockQuantity*stock.CurrPrice).reduce((a, b) => a + b, 0);
 
       const chartData1 = {
         labels: this.dbstocks.map(stock => stock.stockName),
@@ -56,7 +72,7 @@ export class ViewstocksComponent implements OnInit {
           data: this.dbstocks.map(stock => {
 
             // console.log((stock.stockPrice/total)*100);
-            return (stock.stockPrice / total1) * 100
+            return (stock.stockPrice / this.total1) * 100
           }),
           backgroundColor: ['red', 'blue', 'yellow', 'green', 'purple', 'orange', 'black', 'voilet'],
         }]
@@ -74,17 +90,23 @@ export class ViewstocksComponent implements OnInit {
               },
               title: {
                 display: true,
-                text: 'Stock-Wise Segregation of Invested Value',
+                text: `Stock-Wise Segregation of Invested Value :- $${this.portfoliovalue}`,
+                font:{
+                  size:16,
+                  weight:'bold'
+                }
               }
             }
           }
         }
       );
 
+      const canvas1=this.elementRef.nativeElement.querySelector('#pie1')
+       this.canvas1url=canvas1.toDataURL("image/jpeg")
 
 
 
-      const total2 = this.dbstocks.map(stock => stock.CurrPrice).reduce((a, b) => a + b, 0);
+      this.total2 = this.dbstocks.map(stock => stock.CurrPrice).reduce((a, b) => a + b, 0);
 
 
       const chartData2 = {
@@ -93,7 +115,7 @@ export class ViewstocksComponent implements OnInit {
           data: this.dbstocks.map(stock => {
 
             // console.log((stock.stockPrice/total)*100);
-            return (stock.CurrPrice / total2) * 100
+            return (stock.CurrPrice / this.total2) * 100
           }),
           backgroundColor: ['red', 'blue', 'yellow', 'green', 'purple', 'orange', 'black', 'voilet'],
         }]
@@ -111,12 +133,19 @@ export class ViewstocksComponent implements OnInit {
               },
               title: {
                 display: true,
-                text: 'Stock-Wise Segregation of Current Portfolio Value',
+                text: `Stock-Wise Segregation of Current Portfolio Value :- $${this.currentvalue}`,
+                font:{
+                  size:16,
+                  weight:'bold'
+                }
               }
             }
           }
         }
       );
+
+      const canvas2=this.elementRef.nativeElement.querySelector('#pie2')
+      this.canvas2url=canvas2.toDataURL("image/jpeg")
     }, 3000)
 
   }
@@ -219,7 +248,7 @@ async getStockinfo(sym:string):Promise<number>{
       },
       { text: 'Stock Portfolio', style: 'header' },
       { text: ' ', style: 'subheader' },
-      this.getTableData(),
+      this.getTableData()
     ];
 
     const styles = {

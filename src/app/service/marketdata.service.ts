@@ -9,7 +9,7 @@ import {Chart,ChartModule} from 'angular-highcharts'
 })
 export class MarketdataService {
   baseurl="https://financialmodelingprep.com/api/v3/"
-  key="8c51d79921ca367256c7362720a0bf53"
+  key="b4a7464e639f04e32bee80d667a085d0"
   constructor(private http:HttpClient) { }
 
   getMajorIndices(){
