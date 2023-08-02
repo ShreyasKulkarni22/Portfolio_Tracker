@@ -17,6 +17,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MarketComponent } from './market/market.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
@@ -52,6 +53,7 @@ import { MatChipsModule } from '@angular/material/chips';
     MatIconModule,
     MatTableModule,
     MatChipsModule,
+    MatSnackBarModule
     
   ],
   providers: [],

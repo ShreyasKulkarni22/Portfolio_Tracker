@@ -400,7 +400,7 @@ mat-card-title {
     display: flex;
     flex-direction: row;
     width: fit-content;
-    gap: 30px;
+    gap: 1rem;
     
 }
 .navbuttons>a{

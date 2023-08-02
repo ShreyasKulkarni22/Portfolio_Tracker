@@ -5,6 +5,7 @@ import { MarketdataService } from '../service/marketdata.service';
 import {MatTableModule} from '@angular/material/table';
 import { AuthService } from '../service/auth.service';
 import { MatChipListbox, MatChipsModule } from '@angular/material/chips';
+import { Observable } from 'rxjs';
 
 export interface PeriodicElement {
   symbol: string;
@@ -43,12 +44,19 @@ export class MarketComponent implements OnInit{
 
 
   constructor(private marketdata:MarketdataService,private auth:AuthService){}
-  ngOnInit(): void {
-    this.marketdata.getMajorIndices().subscribe(res=>{
-      this.indices=res
-      this.indices=this.indices.slice(0,20)
-    })
+  async ngOnInit() {
 
+    // this.marketdata.getMajorIndices().subscribe(res=>{
+    //   this.indices=res
+    //   this.indices=this.indices.slice(0,20)
+    //   console.log('data ', this.indices);
+    // })
+    
+    await this.getMajorIndices().then(res => {
+      this.indices = res
+    })
+    console.log('indices data oninit', this.indices);
+    
     this.marketdata.getMostActives().subscribe(res=>{
       this.actives=res
       this.actives=this.actives.slice(0,20)
@@ -71,7 +79,7 @@ export class MarketComponent implements OnInit{
 
     this.marketdata.getGeneralNews().subscribe(res=>{
       this.news=res
-      
+      this.news=this.news.slice(0,20)
     })
   }
   displayedColumns: string[] = ['name', 'price', 'changesPercentage'];
@@ -79,6 +87,23 @@ export class MarketComponent implements OnInit{
 
   logout(){
     this.auth.logout()
+  }
+
+  async getMajorIndices() : Promise<Observable<any>> {
+    // this.marketdata.getMajorIndices().subscribe(res=>{
+    //   this.indices=res
+    //   this.indices=this.indices.slice(0,20)
+    // })
+    // console.log('data ', this.indices);
+    // this.marketdata.getMajorIndices().toPromise();
+
+      return new Promise((resolve, reject) => {
+          this.marketdata.getMajorIndices().subscribe((response: any) => {
+            resolve(response);
+          }, reject);
+        });
+    
+
   }
 
 
