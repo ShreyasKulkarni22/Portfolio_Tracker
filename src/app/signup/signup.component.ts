@@ -7,6 +7,7 @@ import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../service/auth.service';
 import ValidateForm from 'src/app/helpers/validateForm';
+import { SnackBarService } from '../service/snack-bar.service';
 
 @Component({
   selector: 'app-signup',
@@ -18,7 +19,7 @@ export class SignupComponent {
   isText: boolean = false;
   eyeIcon: string = 'fa-eye-slash';
   public signUpForm!: FormGroup;
-  constructor(private fb: FormBuilder,private auth:AuthService,private router:Router) {}
+  constructor(private fb: FormBuilder,private auth:AuthService,private router:Router,private snackbar:SnackBarService) {}
   ngOnInit(): void {
     this.signUpForm = this.fb.group({
       firstName: ['', Validators.required],
@@ -39,14 +40,15 @@ export class SignupComponent {
       this.auth.signUp(this.signUpForm.value)
       .subscribe({
         next:(res=>{
-          console.log(res.message);
-          
-          alert(res.message);
+          // console.log(res.message);
+          this.snackbar.showSnackBar(res.message)
+          // alert(res.message);
           this.signUpForm.reset();
           this.router.navigate(['login']);
         }),
         error:(err=>{
-          alert(err?.error.message)
+          // alert()
+          this.snackbar.showSnackBar(err?.error.message)
         })
       })
     } else {

@@ -7,13 +7,6 @@ import { AuthService } from '../service/auth.service';
 import { MatChipListbox, MatChipsModule } from '@angular/material/chips';
 import { Observable } from 'rxjs';
 
-export interface PeriodicElement {
-  symbol: string;
-  name: string;
-  change: number;
-  price: number;
-  changesPercentage: number;
-}
 
 @Component({
   selector: 'app-market',
@@ -74,16 +67,15 @@ export class MarketComponent implements OnInit{
 
     this.marketdata.getForexRates().subscribe(res=>{
       this.forex=res
-      
+      this.forex=this.forex.slice(0,20)
     })
 
     this.marketdata.getGeneralNews().subscribe(res=>{
       this.news=res
-      this.news=this.news.slice(0,20)
+      this.news=this.news.slice(0,10)
     })
   }
-  displayedColumns: string[] = ['name', 'price', 'changesPercentage'];
-  dataSource = this.gainers;
+
 
   logout(){
     this.auth.logout()

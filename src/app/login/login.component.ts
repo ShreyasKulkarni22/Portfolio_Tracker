@@ -15,6 +15,7 @@ import { FormBuilder, FormGroup,Validators,FormControl} from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../service/auth.service';
 import ValidateForm from 'src/app/helpers/validateForm';
+import { SnackBarService } from '../service/snack-bar.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -29,7 +30,8 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private snackbar:SnackBarService
   ) {}
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -48,14 +50,17 @@ export class LoginComponent {
       console.log(this.loginForm.value);
       this.auth.login(this.loginForm.value).subscribe({
         next: (res) => {
-          alert(res.message);
+          // alert(res.message);
+          this.snackbar.showSnackBar(res.message)
           this.loginForm.reset();
           this.router.navigate(['market']);
         },
         error: (err) => {
-          alert(err?.error.message);
-          console.log(err);
-          alert('Your form is invalid!!');
+          // alert(err?.error.message);
+          this.snackbar.showSnackBar(err?.error.message)
+          // console.log(err);
+          this.snackbar.showSnackBar('Your form is invalid!!')
+          // alert();
         },
       });
     } else {

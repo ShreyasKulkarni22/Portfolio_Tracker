@@ -135,7 +135,7 @@ export class ViewstocksComponent implements OnInit {
               },
               title: {
                 display: true,
-                text: `Stock-Wise Segregation of Current Portfolio Value :- $${this.currentvalue}`,
+                text: `Stock-Wise Segregation of Current Portfolio Value :- $${this.currentvalue.toFixed(3)}`,
                 font:{
                   size:16,
                   weight:'bold'
@@ -280,7 +280,9 @@ async getStockinfo(sym:string):Promise<number>{
       },
       { text: 'Stock Portfolio', style: 'header' },
       { text: ' ', style: 'subheader' },
-      this.getTableData()
+      this.getTableData(),
+      { text: 'Portfolio Analysis', style: 'subheader' },
+      { text: 'Invested Amount :- $'+this.portfoliovalue +'\t\t Current Portfolio Value :- $'+this.currentvalue.toFixed(2)+'\t\t % Gain/Loss :- '+(((this.currentvalue-this.portfoliovalue)/this.portfoliovalue)*100).toFixed(3)+'%'}
     ];
 
     const styles = {
