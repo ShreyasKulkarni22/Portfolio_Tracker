@@ -59,13 +59,13 @@ export class LoginComponent {
           // alert(err?.error.message);
           this.snackbar.showSnackBar(err?.error.message)
           // console.log(err);
-          this.snackbar.showSnackBar('Your form is invalid!!')
+          this.snackbar.showSnackBar('Invalid Login Credentials! Please try again')
           // alert();
         },
       });
     } else {
       ValidateForm.validateAllFormFields(this.loginForm);
-      alert('Your form is invalid!!');
+      this.snackbar.showSnackBar('Invalid Login Credentials! Please try again')
     }
   }
 }

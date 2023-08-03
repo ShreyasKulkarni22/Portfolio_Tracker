@@ -1,0 +1,28 @@
+<!-- <div style="height: 1000px; width: 1000px;" class="charts">
+    <canvas #chartCanvas></canvas>
+  </div> -->
+
+
+  <!-- stock-line-chart-chartjs.component.html -->
+<div>
+    <button (click)="fetchData(Stock, '1')">1 Day</button>
+    <button (click)="fetchData(Stock, '7')">1 Week</button>
+    <button (click)="fetchData(Stock, '30')">1 Month</button>
+    <button (click)="fetchData(Stock, '90')">3 Months</button>
+    <button (click)="fetchData(Stock, '180')">6 Months</button>
+    <button (click)="fetchData(Stock, '365')">1 Year</button>
+    <button (click)="fetchData(Stock, '1825')">5 Years</button>
+  
+    <div style=" overflow-x: scroll; height: 1000px; width: 1000px;" class="charts">
+        <canvas #chartCanvas></canvas>
+      </div>
+  </div>
+
+
+  <iframe src="https://widget.finnhub.io/widgets/stocks/chart?symbol=AAPL&amp;watermarkColor=%231db954&amp;backgroundColor=white&amp;textColor=black" 
+  frameborder="0" 
+  scrolling="no" 
+  width="70%" 
+  height="500"  style="margin-left: 8vw;">
+</iframe>
+  

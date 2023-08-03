@@ -9,7 +9,7 @@ import {Chart,ChartModule} from 'angular-highcharts'
 })
 export class MarketdataService {
   baseurl="https://financialmodelingprep.com/api/v3/"
-  key="f926553fb1b9b16c44e4821aa3e62979"
+  key="8c51d79921ca367256c7362720a0bf53"
 
   finurl="https://finnhub.io/api/v1/news?category=general&token=cj4t6b9r01qq6hgdp6o0cj4t6b9r01qq6hgdp6og"
   constructor(private http:HttpClient) { }
@@ -44,11 +44,16 @@ export class MarketdataService {
     // }, 2000);
   }
 
-  getHistorical(sym:string){
-    // https://financialmodelingprep.com/api/v3/historical-price-full/AAPL?serietype=line&apikey=8c51d79921ca367256c7362720a0bf53
+  getHistoricalData(stockSymbol: string,duration:string) {
+   
+    const apiUrl = `https://financialmodelingprep.com/api/v3/historical-price-full/${stockSymbol}?timeseries=${duration}&apikey=${this.key}`;
+    return this.http.get(apiUrl);
+  }
 
-    return this.http.get<ChartData>(this.baseurl + `historical-price-full/${sym}?` + this.key)
-
+  getHistoricalDataForDay(stockSymbol: string) {
+   
+    const apiUrl = `https://financialmodelingprep.com/api/v3/historical-chart/30min/${stockSymbol}?apikey=${this.key}`;
+    return this.http.get(apiUrl);
   }
 
   getGeneralNews(){

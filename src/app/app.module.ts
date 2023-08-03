@@ -18,6 +18,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MarketComponent } from './market/market.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
@@ -27,6 +28,10 @@ import { UserportfoliosComponent } from './userportfolios/userportfolios.compone
 import { ViewstocksComponent } from './viewstocks/viewstocks.component';
 import { MatChipsModule } from '@angular/material/chips';
 
+import { Chart,ChartModule } from '@syncfusion/ej2-angular-charts';
+import { StockChartModule, CandleSeriesService, DateTimeService, CrosshairService, TooltipService, RangeTooltipService} from '@syncfusion/ej2-angular-charts';
+import { ChartComponent } from './chart/chart.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +40,8 @@ import { MatChipsModule } from '@angular/material/chips';
     SignupComponent,
     MarketComponent,
     UserportfoliosComponent,
-    ViewstocksComponent
+    ViewstocksComponent,
+    ChartComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,10 +59,12 @@ import { MatChipsModule } from '@angular/material/chips';
     MatIconModule,
     MatTableModule,
     MatChipsModule,
-    MatSnackBarModule
-    
+    MatSnackBarModule,
+    NgxChartsModule,
+    ChartModule,
+    StockChartModule,
   ],
-  providers: [],
+  providers: [CandleSeriesService, DateTimeService, CrosshairService, TooltipService, RangeTooltipService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

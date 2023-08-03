@@ -7,15 +7,17 @@ import { MarketComponent } from './market/market.component';
 import { UserportfoliosComponent } from './userportfolios/userportfolios.component';
 import { ViewstocksComponent } from './viewstocks/viewstocks.component';
 import { AuthGuard } from './guards/auth.guard';
+import { ChartComponent } from './chart/chart.component';
 
 
 const routes: Routes = [
   { path: '', component: HeaderComponent},
   { path: 'login', component: LoginComponent},
   { path: 'signup', component: SignupComponent},
-  { path:'market', component: MarketComponent,canActivate:[AuthGuard]},
-  { path: 'portfolios', component: UserportfoliosComponent,canActivate:[AuthGuard]},
-  { path: 'viewstocks/:id', component: ViewstocksComponent,canActivate:[AuthGuard]}
+{ path:'market', component: MarketComponent/*,canActivate:[AuthGuard]*/},
+  { path: 'portfolios', component: UserportfoliosComponent/*,canActivate:[AuthGuard]*/},
+  { path: 'viewstocks/:id', component: ViewstocksComponent/*,canActivate:[AuthGuard]*/},
+  { path:'chart',component:ChartComponent}
 ];
 
 @NgModule({
